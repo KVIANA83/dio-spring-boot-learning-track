@@ -6,10 +6,12 @@ import dio.budgeting.domain.TransactionRepository;
 import dio.budgeting.infrastructure.persistence.entity.TransactionEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class JpaTransactionRepository implements TransactionRepository {
+
     private final TransactionEntityRepository transactionEntityRepository;
 
     public JpaTransactionRepository(TransactionEntityRepository transactionEntityRepository) {
@@ -29,4 +31,16 @@ public class JpaTransactionRepository implements TransactionRepository {
                 .map(TransactionEntity::toDomain)
                 .toList();
     }
+
+    @Override
+    public List<Transaction> findAll() {
+
+    List<Transaction> transactions = new ArrayList<>();
+
+    transactionEntityRepository.findAll()
+            .forEach(entity -> transactions.add(entity.toDomain()));
+
+    return transactions;
+    }
+    
 }

@@ -1,85 +1,151 @@
-# DIO Spring Boot - Final Project 05: Spring AI (budgeting)
+# 💰 Budgeting API com Spring Boot + Spring AI
 
-## Introduction
+Este projeto é uma API inteligente de controle de transações financeiras, desenvolvida com Spring Boot e Spring AI, permitindo interação com IA através de comandos de voz, processamento de texto e execução de funções reais da aplicação.
 
-This final module applies Spring AI in a budgeting API while preserving the same layered architecture used across the track.
+---
 
-The goal is to integrate AI capabilities without bypassing domain and use case boundaries.
+## 🚀 Objetivo do Projeto
 
-## Code Context
+O objetivo é construir uma API capaz de:
 
-The project processes voice commands to create and query financial transactions.
+* Receber comandos de áudio do usuário
+* Transcrever áudio em texto
+* Interpretar a intenção usando Inteligência Artificial
+* Executar ações reais na aplicação (Tool Calling)
+* Criar e consultar transações financeiras
+* Retornar respostas também em formato de áudio
 
-Primary flow:
+---
 
-1. Client uploads an audio file.
-2. Audio is transcribed into text.
-3. The model selects an application tool/use case.
-4. The use case persists or queries transaction data.
-5. The final response is converted to audio.
+## 🧠 Funcionalidades
 
-## Project Structure
+### 📌 Transações financeiras
 
-- `src/main/java/dio/budgeting/domain`
-  - Domain model and repository contract.
-- `src/main/java/dio/budgeting/application`
-  - Use cases used by both REST and AI tool calling.
-- `src/main/java/dio/budgeting/infrastructure`
-  - HTTP adapters, JPA adapters, and integration glue.
+* Criar transação
+* Listar transações por categoria
+* Persistência em banco de dados MySQL
 
-## Module-Specific Topics
+### 🎙️ Integração com IA
 
-### Speech-to-text
+* Transcrição de áudio para texto
+* Interpretação de comandos via IA
+* Tool Calling para execução de regras da aplicação
 
-- Uses `TranscriptionModel` for audio transcription.
-- Model settings are configured in `application.properties`.
+### 🔊 Resposta em áudio
 
-### Tool calling
+* Conversão da resposta da IA em áudio (Text-to-Speech)
 
-- `ChatClient` registers use-case tools.
-- `@Tool` methods expose business capabilities to the model.
+---
 
-### Text-to-speech
+## 🛠️ Tecnologias utilizadas
 
-- `TextToSpeechModel` produces MP3 output from final text.
-- AI endpoint returns generated audio.
+* Java 21
+* Spring Boot 4
+* Spring Web
+* Spring Data JPA
+* Spring AI
+* MySQL
+* Gradle
+* Docker
 
-## Spring AI Documentation
+---
 
-- Spring AI Reference: https://docs.spring.io/spring-ai/reference/index.html
-- ChatModel API: https://docs.spring.io/spring-ai/reference/api/chatmodel.html
-- ChatClient API: https://docs.spring.io/spring-ai/reference/api/chatclient.html
-- Tools API: https://docs.spring.io/spring-ai/reference/api/tools.html
-- Audio Transcriptions API: https://docs.spring.io/spring-ai/reference/api/audio/transcriptions.html
-- Audio Speech API: https://docs.spring.io/spring-ai/reference/api/audio/speech.html
+## 📂 Estrutura do projeto
 
-## Shared Architecture References
+dio.budgeting
+├── application        (casos de uso)
+├── domain             (regras de negócio)
+├── infrastructure
+│   ├── http           (controllers REST + IA)
+│   └── persistence    (repositórios JPA)
+└── BudgetingApplication.java
 
-Common architecture concepts are documented in the root README:
+---
 
-- [DDD layers](../README.md#ddd-layered-architecture)
-- [Class vs record](../README.md#java-class-vs-java-record-in-domain-modeling)
-- [Strong typed identifiers](../README.md#strong-typed-identifiers)
-- [Repository pattern](../README.md#repository-pattern)
-- [Use cases and Clean Architecture](../README.md#use-cases-and-clean-architecture)
-- [Docker Compose support](../README.md#docker-compose-support-in-development)
+## ▶️ Como executar o projeto
 
-## How to Run
+### 1. Clonar o repositório
 
-Set your OpenAI API key:
+git clone [https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git](https://github.com/SEU-USUARIO/SEU-REPOSITORIO.git)
 
-```bash
-export OPENAI_API_KEY="your_api_key_here"
-```
+---
 
-Run the application and tests:
+### 2. Subir o banco de dados
 
-```bash
+docker-compose up -d
+
+---
+
+### 3. Rodar a aplicação
+
 ./gradlew bootRun
-./gradlew test
-```
 
-## Notes
+---
 
-- Educational final project focused on AI plus architectural discipline.
-- External provider integration tests may require active credentials.
+## 📡 Endpoints da API
+
+### 🔹 Criar transação
+
+POST /transactions
+
+{
+"category": "GROCERIES",
+"description": "Compra no mercado",
+"amount": 25000
+}
+
+---
+
+### 🔹 Listar transações por categoria
+
+GET /transactions/{category}
+
+/transactions/GROCERIES
+
+---
+
+### 🔹 Processamento com IA (áudio → texto → ação → áudio)
+
+POST /transactions/ai
+
+Enviar como:
+
+* multipart/form-data
+* file (arquivo de áudio)
+
+---
+
+## 🧪 Fluxo da IA
+
+1. Usuário envia áudio
+2. Sistema transcreve áudio para texto
+3. IA interpreta a intenção
+4. Tool Calling executa a ação
+5. Resposta é gerada em áudio
+
+---
+
+## 📌 Aprendizados
+
+* Integração de IA com aplicações Java
+* Spring AI e Tool Calling
+* Arquitetura em camadas
+* Persistência com Spring Data JPA
+* Processamento de áudio no backend
+
+---
+
+## 📈 Possíveis melhorias
+
+* Autenticação com Spring Security
+* Dashboard financeiro
+* Relatórios mensais com IA
+* Validações de entrada
+* Testes automatizados
+
+---
+
+## 👩‍💻 Autor
+
+Projeto desenvolvido como parte do desafio da DIO - Spring AI
+
